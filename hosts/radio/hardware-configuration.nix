@@ -85,6 +85,35 @@
       device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
       fsType = "btrfs";
     };
+    "/data/db4" = {
+      device = "UUID=5CEC0131EC01074C";
+      fsType = "ntfs";
+      options = [
+        "users"
+        "nofail"
+        "uid=1000"
+        "gid=100"
+        "auto"
+        "umask=077"
+        "exec"
+        "permissions"
+      ];
+    };
+
+    "/data/db5" = {
+      device = "UUID=01D9485C05AF0E90";
+      fsType = "ntfs";
+      options = [
+        "users"
+        "nofail"
+        "uid=1000"
+        "gid=100"
+        "auto"
+        "umask=077"
+        "exec"
+        "permissions"
+      ];
+    };
 
     "/boot" = {
       device = "/dev/disk/by-uuid/B40E-E974";
