@@ -69,6 +69,86 @@
       limine = {
         enable = true;
         enableEditor = true;
+        extraEntries = ''
+          /Gaming (win-x86_64)
+            protocol: efi
+            path: boot():/EFI/Microsoft/Boot/bootmgfw.efi
+            comment: Yes
+        '';
+        extraConfig = ''
+          "$\{resource_arg}=nixos"
+          timeout: 3
+          wallpaper_style: stretched
+          backdrop: FF3300
+          verbose: yes
+          interface_resolution: 1920x1080
+          interface_branding: Mijn Liefde..
+          interface_branding_color: 2
+          term_font: boot():/EFI/limine/SCRWL---.F16
+          term_font_size: 8x16
+          term_font_scale: 2x2
+          term_font_spacing: 1
+          term_margin: 0
+          term_margin_gradient: 0
+          wallpaper: fslabel(nixos):../..//var/wallpaper/astronaut2.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/astronaut_jellyfish.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/black-whole2.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/black-whole.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/car_on_mars.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/dark-waves.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/depechemode-violator.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/emergence.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/escape_velocity.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/explorer_orange_sunset.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/Fantasy-Autumn.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/Fantasy-Landscape3.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/fantasy-mountain1.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/fantasy-mountain2.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/fantasy-mountain3.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/forest-landscape.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/ireland-hills.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/italy.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/landscape-abstract-neon.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/landscape.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/marina-bay-sands.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/midnight-reflections-moonlit-sea.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/moonlight.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/mountain-lake.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/mountain-snow-minima.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/mountain-sunrise.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/muscle-car-ice-road-red-moon.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/mystical-night-in-town.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/nature.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/neon_car.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/night_city.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/Nocturne-of-Steel-and-Glass.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/nordwall3.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/raw-expression.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/river_to_castle_theme_blue.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/rocket_launch.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/scary_cat.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/snowy-peace.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/Solitary-Glow.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-01.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-10.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-drive-forest.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-in-thick-forest.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-lookout.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-mountain-beautiful.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/sunset-scenery-minimalist.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/tron-ares.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/tron_legacy1.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/tron_legacy2.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/tron_legacy4.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/tron_legacy6.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/vintage-ascent.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/vulcan.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/wallhaven1.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/wallhaven3.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/wallhaven4.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/watchtower-mountains-and-forests.jpeg
+          wallpaper: fslabel(nixos):../..//var/wallpaper/winter-is-here.jpeg
+        '';
       };
     };
 
