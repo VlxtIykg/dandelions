@@ -10,6 +10,7 @@
   outputs =
     inputs@{
       nixpkgs,
+      niri,
       chaotic,
       ...
     }:
