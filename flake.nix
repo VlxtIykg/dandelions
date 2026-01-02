@@ -17,18 +17,24 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    adios.url = "github:adisbladis/adios";
     niri.url = "github:sodiboo/niri-flake";
   };
+
+  # outputs = inputs@{ nixpkgs, home-manager, niri, chaotic, ... }:
   outputs =
     inputs@{
       nixpkgs,
       home-manager,
+      self,
       niri,
       chaotic,
       ...
     }:
     let
+      # system = inputs.nixpkgs.legacyPackages."x86_64-linux";
       system = "x86_64-linux";
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
       lib = import ./lib/default.nix nixpkgs.lib;
       nixosConfigurations = import ./hosts {
         inherit
@@ -46,6 +52,50 @@
     in
     {
       inherit nixosConfigurations;
+      defaultWrappers = forAllSystems (
+        pkgs: _:
+        import ./lib/adios.nix {
+          inherit pkgs inputs;
+          adios = inputs.adios.adios;
+        }
+      );
+
+      packages = forAllSystems (
+        pkgs: system:
+        let
+          wrappers = inputs.self.defaultWrappers.${system};
+        in
+        {
+          git = wrappers.git { };
+
+          # This path is looking /dandelions/gitconf.nix not /dandelions/wrappers/git/gitconfig.nix
+          gitPC = wrappers.git {
+            ignoreFile = ./hosts/radio/config/.gitignore;
+            # options = { inherit wrappers; }.git.options;
+            # iniConfig = import ./hosts/radio/config/gitUserSettings.nix { inherit options; };
+            name = "kami";
+            email = "97310758+VlxtIykg@users.noreply.github.com";
+            gitSettingPath = ./hosts/radio/config/gitUserSettings.nix;
+          };
+
+          gitLappy = wrappers.git {
+            ignoreFile = ./ignore;
+            iniConfig = import ./hosts/common/core/gitUserSettings.nix { inherit inputs; };
+            # iniConfig = import ./wrappers/git/gitSettings.nix { inherit inputs; };
+            # ignoreFile = ./gitignore;
+          };
+        }
+      );
+
+      devShells = forAllSystems (
+        pkgs: system: {
+          default = import ./hosts/common/core/shell.nix { inherit inputs system pkgs; };
+          radio = import ./hosts/radio/core/shell.nix { inherit inputs system pkgs; };
+          # otherUser = ; # for future user, on lap1, pi1, lap2, friendlap1, friendGc2lap1, friendGc2lap2
+          friendTest = import ./modules/friendShell.nix;
+        }
+      );
+
     };
 
 }

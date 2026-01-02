@@ -9,6 +9,6 @@ in
 pkgs.mkShellNoCC {
 
   packages = [
-    wrappers.gitPC
+    wrappers.git
   ];
 }

@@ -1,2 +1,5 @@
+.direnv
+.envrc
 .git
 .ignore
+wrapper/*/result/*
