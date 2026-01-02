@@ -9,6 +9,8 @@ _: {
     ./xdg-portal.nix
     ./home-manager.nix
     ./system.nix
+    ./gtk.nix
     ./xwayland.nix
+    # ./xwayland-satellite.nix
   ];
 }
