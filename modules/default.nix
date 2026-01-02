@@ -12,5 +12,6 @@ _: {
     ./gtk.nix
     ./xwayland.nix
     # ./xwayland-satellite.nix
+    ./zen-browser.nix
   ];
 }
