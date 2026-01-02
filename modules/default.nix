@@ -5,5 +5,6 @@ _: {
     ./fish.nix
     ./helix.nix
     ./home-manager.nix
+    ./system.nix
   ];
 }
