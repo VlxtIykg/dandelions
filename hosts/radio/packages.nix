@@ -5,7 +5,41 @@
 }:
 with pkgs;
 [
+  inputs.zen-browser.packages.${pkgs.system}.default
+  dunst
+  direnv
   man-pages
+  thunderbird
+  signal-desktop
+  grc
+  gcr_4
+  # gnome-keyring
+  gcc
+  gtk3
+  gtk4
+  clang
+  libreoffice
+  wireshark
+  cargo-mommy
+  swaybg
+  obsidian
+  pipewire
+  helix
+  alacritty
+  ntfs3g
+  rustup
+  pavucontrol
   nixfmt-classic
+  rust-analyzer
+  lld
   nil
+  bun
+  firefox
+  xdg-desktop-portal
+  xdg-desktop-portal-wlr
+  xwayland-satellite-unstable
+  appimage-run
+  fzf
+  kdePackages.okular
+  inputs.self.packages.${pkgs.system}.gitPC
 ]
