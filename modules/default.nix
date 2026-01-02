@@ -1,6 +1,7 @@
 _: {
   imports = [
     ./alacritty.nix
+    ./steam.nix
     ./bash.nix
     ./fish.nix
     ./helix.nix
