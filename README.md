@@ -6,12 +6,12 @@ Well matters not for nought anyways.
 I was pretty drunk when I was flying and making this speech to you the passengers.
 Wait no I am*, anyways to those who are listening or reading we're are about to crash!
 
-Back in my days I used to create things, I was such an engineer.
-<summary>
 <details>
 Is what I would say if I like making shit.
-</details>
+<summary>
+Back in my days I used to create things, I was such an engineer.
 </summary>
+</details>
 
 I built this plane with my bear hands! wait no bare hands D:!
 You can too if you copy my techniques!
@@ -24,15 +24,15 @@ Ill tell yah more bout me updateNixos button one day.
 The seats, the engine, the COCKpit and maybe more, i don't know or remnmebrer!
 
 
-<h3> So what is in this plane?
+### So what is in this plane?   
 
 Lets start with that its OPERATIONAL!!
-We can use this config file<i> on the fly!</i>
-<summary>
-<details>
+<details open>
 HahhahahahhahahahhAHBHAbhahahh im so funny
-</details>
+<summary>
+We can use this config file<i> on the fly!</i>
 </summary>
+</details>
 
 We have our radio and every thing moving and stationery is connected to our radio!
 So you the user will use this radio to customize this plane to how you would like it to be.<br>
@@ -47,12 +47,13 @@ Well no better time than now when our plane is crashing and we'er all going to d
 # Journal 1
 Nei hou nei hou, gno hor yak hao yang jiao.. 
 Yu xiu dek ta, ying hei yong yi
-<i>Translator self.. repariring</i>
-<summary>
+
 <details>
 I guess the translator can be drunk too!?
-</details> 
+<summary>
+<i>Translator self.. repariring</i>
 </summary>
+</details> 
 Anyways where was I?
 Right the journal.
 
