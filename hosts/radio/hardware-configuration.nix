@@ -167,12 +167,30 @@
       device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
       fsType = "btrfs";
     };
+
+    "/data" = {
+      depends = [ "/" ];
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "auto"
+        "subvolid=267"
+        "compress=zstd:1"
+        "noatime"
+        "exec"
+      ];
+    };
+
     "/data/db4" = {
+      depends = [
+        "/"
+        "/data"
+      ];
       device = "UUID=5CEC0131EC01074C";
       fsType = "ntfs";
       options = [
-        "users"
         "nofail"
+        "users"
         "uid=1000"
         "gid=100"
         "auto"
@@ -182,24 +200,57 @@
       ];
     };
 
-    "/data/db5" = {
-      device = "UUID=01D9485C05AF0E90";
-      fsType = "ntfs";
-      options = [
-        "users"
-        "nofail"
-        "uid=1000"
-        "gid=100"
-        "auto"
-        "umask=077"
-        "exec"
-        "permissions"
-      ];
-    };
+    # "/data/db5" = {
+    #   depends = [
+    #     "/"
+    #     "/data"
+    #   ];
+    #   device = "UUID=01D9485C05AF0E90";
+    #   fsType = "ntfs";
+    #   options = [
+    #     "nofail"
+    #     "users"
+    #     "uid=1000"
+    #     "gid=100"
+    #     "auto"
+    #     "umask=077"
+    #     "exec"
+    #     "permissions"
+    #   ];
+    # };
 
     "/boot" = {
       device = "/dev/disk/by-uuid/B40E-E974";
       fsType = "vfat";
+    };
+
+    "/home" = {
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "subvolid=265"
+        "compress=zstd:1"
+      ];
+    };
+
+    "/nix" = {
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "subvolid=266"
+        "compress=zstd:1"
+        "noatime"
+      ];
+    };
+
+    "tmp" = {
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "subvolid=259"
+        "compress=zstd:1"
+        "noatime"
+      ];
     };
   };
 
