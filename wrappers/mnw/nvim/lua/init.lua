@@ -2,6 +2,7 @@
 Custom = {}
 
 require("options")
+require("colorscheme")
 require("rebindings")
 require("lsp")
 
