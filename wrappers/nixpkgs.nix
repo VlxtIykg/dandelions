@@ -1,5 +1,4 @@
-{ adios }:
-{
+adios: {
   name = "nixpkgs";
 
   options = {
