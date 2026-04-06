@@ -7,7 +7,6 @@ with pkgs;
 [
   # Personal packages
   inputs.zen-browser.packages.${pkgs.system}.default
-  inputs.self.packages.${pkgs.system}.gitPC
   inputs.self.packages.${pkgs.system}.bat
   inputs.self.packages.${pkgs.system}.mnw
 
