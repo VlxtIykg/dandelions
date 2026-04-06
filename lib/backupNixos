@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+nixos_configuration_path="/data/dandelions"
+nixos_systemlink_path="/nix/var/nix/profiles"
+nixos_context="stable"
+
+updateNixosConfiEnv() {
+  echo -en "\033[u\033[1BWould you like to change your \033[33mNixOS configuration \033[4mPath\033[0m\033[33m? (e.g. yes/no)\n"
+  read shouldChangeNixConf
+  if [[ $shouldChangeNixConf == "yes" ]]; then
+    echo -en "\033[?25l\033[u\033[1B\033[56C\033[0J\033[36m\nGive a path (e.g. /etc/nixos/dandelions)\033[?25h\033[0m\n"
+    read changeNixOsConfPath
+    nixos_configuration_path=$changeNixOsConfPath
+  fi;
+  echo -e "\033[u\033[1B\033[2K\rNixosConfigurationPath: \033[34m${nixos_configuration_path}\033[0m"
+}
+
+updateSystemLinkEnv() {
+  echo -e "\033[u\033[2B\033[0JWould you like to change your \033[33mNixOS system link \033[4mPath\033[0m\033[33m? (e.g. yes/no)"
+  read shouldChangeNixSyslink
+  if [[ $shouldChangeNixSyslink == "yes" ]]; then
+    echo -en "\033[u\033[2B\033[54C\033[0J\033[36m\nGive a directory (e.g. system-1-link)\n'"
+    echo -en $(ls $nixos_systemlink_path/)
+    echo -e "'\033[0m"
+    read changeNixOsSyslink
+    nixos_systemlink_path="/nix/var/nix/profiles/${changeNixOsSyslink}"
+  else
+    nixos_systemlink_path="/nix/var/nix/profiles/system"
+  fi;
+  echo -e "\033[u\033[2B\033[0J\rNixosSystemLinkPath: \033[34m${nixos_systemlink_path}\033[0m"
+}
+
+updateContextEnv() {
+  echo -e "\033[u\033[3B\033[0JWould you like to add a meaningful \033[33mNixOS \033[4mrelease name\033[0m\033[33m? (e.g. yes/no)"
+  read shouldChangeNixContext
+  if [[ $shouldChangeNixContext == "yes" ]]; then
+    echo -en "\033[u\033[3B\033[55C\033[0J\033[36m\nGive a name (e.g. git-setup-stable)"
+    read changeNixOsContext
+    nixos_context=${changeNixOsContext}
+  fi;
+  echo -e "\033[u\033[3B\033[0J\rNixosFileContextName: \033[34m${nixos_context}\033[0m"
+}
+
+backup() {
+  mkdir -p $(date +%F)${nixos_systemlink_path}
+  sudo rsync -vkdr $nixos_configuration_path "/tmp/nixos_backup_$(date +%H%M)($(date +%F))_${nixos_context}"
+  sudo tar -cPf  "/data/db4/Github/nixos_config_archive/archived/nixos_backup_$(date +%H%M)($(date +%F))_${nixos_context}.tar.zstd" --zstd "/tmp/nixos_backup_$(date +%H%M)($(date +%F))_${nixos_context}/"
+  sudo rm -rfv /tmp/nixos_backup_*
+}
+
+main() {
+  echo -e "\033[sWe are going to backup \033[33mNixOS configuration.\033[0m"
+  updateNixosConfiEnv
+  # updateSystemLinkEnv
+  updateContextEnv
+  echo -en "Are you ready to back the said files up? (Press any key)"
+  read
+  backup
+  echo -e "Files that were zipped\n\t\033[31m${nixos_configuration_path}"
+
+}
+
+
+main
