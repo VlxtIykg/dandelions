@@ -1,0 +1,13 @@
+print("hewo from kami ฅ^>⩊<^ ฅ")
+print("It should have been me.")
+print("It should have been me.")
+print("It should have been me.")
+print("I see them eating with you.")
+print("I see you conversing, smiling, having fun.")
+print("I see myself losing hue..")
+print("As life goes on and you rehearse and walk your miles and experience the sun...")
+print("Oh dear, seeing you cheer, oh without a clue.")
+print("The pain it brings to me not being there with hun")
+require("init")
+-- require("wrappers.mnw.nvim.after.showkeys")
+
