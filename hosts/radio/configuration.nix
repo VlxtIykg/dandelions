@@ -109,7 +109,7 @@
 
   systemd = {
     network = {
-      enable = true;
+      enable = false;
       networks."main" = {
         matchConfig.Name = "enp4s0";
         networkConfig.DHCP = "ipv4";
@@ -123,6 +123,17 @@
         "@${pkgs.util-linux}/sbin/agetty agetty -o '-p -- kami' --login-program ${config.services.getty.loginProgram}  --noclear --keep-baud %I 115200,38400,9600 $TERM"
       ];
     };
+
+    # services."warp-daemon-server" = {
+    #   enable = true;
+    #   after = [ "network.target" ];
+    #   wantedBy = [ "default.target" ];
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
+    #   };
+    # };
+
   };
 
   i18n = {
@@ -156,11 +167,39 @@
       ports = [ 7711 ];
       settings.PasswordAuthentication = true;
     };
+    cloudflare-warp.enable = true;
+    resolved = {
+      enable = true;
+      settings.Resolve = {
+        Domains = ".";
+        DNSOverTLS = false;
+        DNSSEC = true;
+        DNS = [
+          "192.168.1.200"
+          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          # "2606:4700:4700::1111"
+          # "1.1.1.1"
+          # "1.0.0.1"
+        ];
+        FallbackDNS = [
+          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          "192.168.1.200"
+          "2606:4700:4700::1111"
+          "1.1.1.1"
+          # "1.0.0.1"
+        ];
+        ResolveUnicastSingleLabel = true;
+      };
+    };
   };
 
   users.users.kami = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "kvm"
+    ];
     shell = pkgs.bash;
   };
 

@@ -159,7 +159,7 @@
     '';
   };
 
-  networking.useDHCP = lib.mkDefault true;
+  # networking refer below for networking;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems = {
@@ -256,14 +256,45 @@
 
   networking = {
     hostName = "radio";
-    useNetworkd = true;
-    nameservers = [
-      "1.1.1.1"
-      "1.0.0.1"
-      "192.168.1.200"
-      "8.8.8.8"
-      "8.8.4.4"
-    ];
+    networkmanager.enable = true;
+    networkmanager.dns = "systemd-resolved";
+    useDHCP = false;
+    dhcpcd.enable = false;
+    useNetworkd = false;
+
+    interfaces.enp4s0 = {
+      # ipv6.addresses = [
+      #   {
+      #     address = "fd00:11a0:1309:1d84:4bba:3620:ebb1:0251";
+      #     prefixLength = 64;
+      #   }
+      # ];
+      ipv4.addresses = [
+        {
+          address = "192.168.1.251";
+          prefixLength = 24;
+        }
+      ];
+    };
+
+    defaultGateway = {
+      address = "192.168.1.1";
+      interface = "enp4s0";
+    };
+    # defaultGateway6 = {
+    #   address = "fd00:11a0:1309:1d84:4bba:3620:ebb1:01";
+    #   interface = "enp4s0";
+    # };
+
+    # nameservers = [
+    # "127.0.2.2"
+    # "127.0.2.3"
+    # "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+    # "192.168.1.200"
+    # "2606:4700:4700::1111"
+    #   "1.1.1.1"
+    #   "1.0.0.1"
+    # ];
     firewall.allowedTCPPorts = [
       22
       80
@@ -271,8 +302,7 @@
       21
       20
       7711
+      8384
     ];
-
   };
-
 }
