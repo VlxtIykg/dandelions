@@ -1,8 +1,8 @@
 {
   inputs,
-  pkgs,
   lib,
-  chaotic,
+  nix-cachyos-kernel,
+  helix-flake,
   ...
 }:
 let
