@@ -18,20 +18,20 @@ in
       portal = {
         enable = true;
         extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
           xdg-desktop-portal-gnome
-          # xdg-desktop-portal-gtk
-          xdg-desktop-portal
-          xdg-desktop-portal-wlr
+          # xdg-desktop-portal-wlr
         ];
-        wlr.enable = true;
+        # wlr.enable = true;
         config = {
           niri = {
-            default = [ "wlr" ];
-            "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-            "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+            default = [ "gtk" ];
+            "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+            "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
           };
-          common.default = "*";
+          # common.default = "*";
         };
+        xdgOpenUsePortal = true;
       };
     };
   };

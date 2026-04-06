@@ -10,9 +10,11 @@
   hardware = {
     nvidia = {
       modesetting.enable = true;
-      open = true;
+      # open = true;
+      open = false;
       nvidiaSettings = true;
-      package = pkgs.linuxPackages_cachyos-lto.nvidiaPackages.beta;
+      # package = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
 
     graphics = {
@@ -21,6 +23,28 @@
     };
 
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+    bluetooth = {
+      enable = true;
+      powerOnBoot = false;
+      settings = {
+        General = {
+          # Shows battery charge of connected devices on supported
+          # Bluetooth adapters. Defaults to 'false'.
+          Experimental = true;
+          # When enabled other devices can connect faster to us, however
+          # the tradeoff is increased power consumption. Defaults to
+          # 'false'.
+          FastConnectable = true;
+        };
+        Policy = {
+          # Enable all controllers when they are found. This includes
+          # adapters present on start as well as adapters that are plugged
+          # in later on. Defaults to 'true'.
+          AutoEnable = true;
+        };
+      };
+    };
   };
 
   boot = {
@@ -28,7 +52,7 @@
       "btrfs"
       "vfat"
     ];
-    kernelPackages = pkgs.linuxPackages_cachyos-lto;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
     kernelModules = lib.mkForce [
       "kvm-amd"
       "nvidia"
@@ -157,7 +181,7 @@
     '';
   };
 
-  networking.useDHCP = lib.mkDefault true;
+  # networking refer below for networking;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   fileSystems = {
@@ -165,12 +189,30 @@
       device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
       fsType = "btrfs";
     };
+
+    "/data" = {
+      depends = [ "/" ];
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "auto"
+        "subvolid=267"
+        "compress=zstd:1"
+        "noatime"
+        "exec"
+      ];
+    };
+
     "/data/db4" = {
+      depends = [
+        "/"
+        "/data"
+      ];
       device = "UUID=5CEC0131EC01074C";
       fsType = "ntfs";
       options = [
-        "users"
         "nofail"
+        "users"
         "uid=1000"
         "gid=100"
         "auto"
@@ -180,37 +222,101 @@
       ];
     };
 
-    "/data/db5" = {
-      device = "UUID=01D9485C05AF0E90";
-      fsType = "ntfs";
-      options = [
-        "users"
-        "nofail"
-        "uid=1000"
-        "gid=100"
-        "auto"
-        "umask=077"
-        "exec"
-        "permissions"
-      ];
-    };
+    # "/data/db5" = {
+    #   depends = [
+    #     "/"
+    #     "/data"
+    #   ];
+    #   device = "UUID=01D9485C05AF0E90";
+    #   fsType = "ntfs";
+    #   options = [
+    #     "nofail"
+    #     "users"
+    #     "uid=1000"
+    #     "gid=100"
+    #     "auto"
+    #     "umask=077"
+    #     "exec"
+    #     "permissions"
+    #   ];
+    # };
 
     "/boot" = {
       device = "/dev/disk/by-uuid/B40E-E974";
       fsType = "vfat";
     };
+
+    "/home" = {
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "subvolid=265"
+        "compress=zstd:1"
+      ];
+    };
+
+    "/nix" = {
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "subvolid=266"
+        "compress=zstd:1"
+        "noatime"
+      ];
+    };
+
+    "tmp" = {
+      device = "/dev/disk/by-uuid/b48e7966-0211-4185-9730-6e698a1f162d";
+      fsType = "btrfs";
+      options = [
+        "subvolid=259"
+        "compress=zstd:1"
+        "noatime"
+      ];
+    };
   };
 
   networking = {
     hostName = "radio";
-    useNetworkd = true;
-    nameservers = [
-      "1.1.1.1"
-      "1.0.0.1"
-      "192.168.1.200"
-      "8.8.8.8"
-      "8.8.4.4"
-    ];
+    networkmanager.enable = true;
+    networkmanager.dns = "systemd-resolved";
+    useDHCP = false;
+    dhcpcd.enable = false;
+    useNetworkd = false;
+
+    interfaces.enp4s0 = {
+      # ipv6.addresses = [
+      #   {
+      #     address = "fd00:11a0:1309:1d84:4bba:3620:ebb1:0251";
+      #     prefixLength = 64;
+      #   }
+      # ];
+      ipv4.addresses = [
+        {
+          address = "192.168.1.251";
+          prefixLength = 24;
+        }
+      ];
+    };
+
+    defaultGateway = {
+      address = "192.168.1.1";
+      interface = "enp4s0";
+    };
+    # defaultGateway6 = {
+    #   address = "fd00:11a0:1309:1d84:4bba:3620:ebb1:01";
+    #   interface = "enp4s0";
+    # };
+
+    # nameservers = [
+    # "127.0.2.2"
+    # "127.0.2.3"
+    # "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+    # "192.168.1.200"
+    # "2606:4700:4700::1111"
+    #   "1.1.1.1"
+    #   "1.0.0.1"
+    # ];
     firewall.allowedTCPPorts = [
       22
       80
@@ -218,8 +324,7 @@
       21
       20
       7711
+      8384
     ];
-
   };
-
 }

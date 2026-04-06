@@ -13,7 +13,24 @@
     "flakes"
   ];
 
-  system.modulesTree = [ (lib.getOutput "modules" pkgs.linuxPackages_cachyos-lto.kernel) ];
+  nix.settings.substituters = lib.mkForce [
+    "https://cache.nixos.org"
+    "https://attic.xuyh0120.win/lantian"
+    "https://cache.garnix.io"
+  ];
+  nix.settings.extra-substituters = [ "https://vicinae.cachix.org" ];
+  nix.settings.trusted-public-keys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+    "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+  ];
+  nix.settings.extra-trusted-public-keys = [
+    "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
+  ];
+
+  system.modulesTree = [
+    (lib.getOutput "modules" pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto.kernel)
+  ];
 
   documentation = {
     enable = true;
@@ -43,11 +60,44 @@
     systemPackages = import ./packages.nix { inherit inputs pkgs self; };
   };
 
-  security.polkit.enable = true;
+  security = {
+    polkit.enable = true;
+    sudo = {
+      enable = true;
+      extraRules = [
+        {
+          commands = [
+            {
+              command = "${pkgs.systemd}/bin/systemctl suspend";
+              options = [ "NOPASSWD" ];
+            }
+            {
+              command = "${pkgs.systemd}/bin/reboot";
+              options = [ "NOPASSWD" ];
+            }
+            {
+              command = "${pkgs.systemd}/bin/poweroff";
+              options = [ "NOPASSWD" ];
+            }
+          ];
+          groups = [ "wheel" ];
+        }
+      ];
+
+      extraConfig = with pkgs; ''
+        Defaults:picloud secure_path="${
+          lib.makeBinPath [
+            systemd
+          ]
+        }:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+      '';
+    };
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
     pulseaudio = true;
+    permittedInsecurePackages = [ "olm-3.2.16" ];
   };
 
   programs = {
@@ -59,7 +109,7 @@
 
   systemd = {
     network = {
-      enable = true;
+      enable = false;
       networks."main" = {
         matchConfig.Name = "enp4s0";
         networkConfig.DHCP = "ipv4";
@@ -73,6 +123,17 @@
         "@${pkgs.util-linux}/sbin/agetty agetty -o '-p -- kami' --login-program ${config.services.getty.loginProgram}  --noclear --keep-baud %I 115200,38400,9600 $TERM"
       ];
     };
+
+    # services."warp-daemon-server" = {
+    #   enable = true;
+    #   after = [ "network.target" ];
+    #   wantedBy = [ "default.target" ];
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     ExecStart = "${pkgs.cloudflare-warp}/bin/warp-svc";
+    #   };
+    # };
+
   };
 
   i18n = {
@@ -106,11 +167,39 @@
       ports = [ 7711 ];
       settings.PasswordAuthentication = true;
     };
+    cloudflare-warp.enable = true;
+    resolved = {
+      enable = true;
+      settings.Resolve = {
+        Domains = ".";
+        DNSOverTLS = false;
+        DNSSEC = true;
+        DNS = [
+          "192.168.1.200"
+          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          # "2606:4700:4700::1111"
+          # "1.1.1.1"
+          # "1.0.0.1"
+        ];
+        FallbackDNS = [
+          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          "192.168.1.200"
+          "2606:4700:4700::1111"
+          "1.1.1.1"
+          # "1.0.0.1"
+        ];
+        ResolveUnicastSingleLabel = true;
+      };
+    };
   };
 
   users.users.kami = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "kvm"
+    ];
     shell = pkgs.bash;
   };
 
@@ -124,11 +213,12 @@
       alacritt.enable = true;
       fish.enable = true;
       rofi.enable = true;
+      raycast.enable = true;
       steam.enable = true;
       xdg-portal.enable = true;
       niri = {
         enable = true;
-        wallpaper = "Fantasy-Autumn.png";
+        wallpaper = "girlWCigg.png";
         wallpaperSource = ../../assets/wallpapers;
       };
       helix.enable = true;

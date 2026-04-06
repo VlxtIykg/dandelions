@@ -1,8 +1,8 @@
 {
   inputs,
-  pkgs,
   lib,
-  chaotic,
+  nix-cachyos-kernel,
+  helix-flake,
   ...
 }:
 let
@@ -17,23 +17,19 @@ let
         ./common/core
         ../modules
         directory
-        chaotic.nixosModules.default
-        # chaotic.nixosModules.nyx-cache
-        # chaotic.nixosModules.nyx-overlay
-        # chaotic.nixosModules.nyx-registry
+        (
+          { pkgs, ... }:
+          {
+            nixpkgs.overlays = [
+              nix-cachyos-kernel.overlays.pinned
+            ];
+
+          }
+        )
       ]
       ++ extra;
       specialArgs = {
-        inherit inputs lib;
-        # self = {
-        #   wrappers = import ../lib/adios.nix {
-        #     inherit pkgs;
-        #     adios = inputs.adios.adios;
-        #   }; # I could probably put
-        #   # { inputs, lib, chaotic, pkgs, ... }: ...
-        #   # then
-        #   # inherit pkgs directly from there but we roll
-        # };
+        inherit inputs lib helix-flake;
       };
     };
 
