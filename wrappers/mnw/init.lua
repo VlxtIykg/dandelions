@@ -9,5 +9,6 @@ print("As life goes on and you rehearse and walk your miles and experience the s
 print("Oh dear, seeing you cheer, oh without a clue.")
 print("The pain it brings to me not being there with hun")
 require("init")
+require("lz.n").load("lazy")
 -- require("wrappers.mnw.nvim.after.showkeys")
 

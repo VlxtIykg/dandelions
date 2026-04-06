@@ -21,6 +21,8 @@ mnw.lib.wrap pkgs {
   ];
 
   plugins = {
+    start = import ./packages/treesitter.nix args;
+    startAttrs = import ./packages/startPlugins.nix args;
     dev.config = {
       pure = ./nvim;
       impure = "/data/dandelions/wrappers/mnw/nvim";
