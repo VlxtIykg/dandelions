@@ -10,5 +10,6 @@ pkgs.mkShellNoCC {
 
   packages = [
     wrappers.gitPC
+    inputs.self.packages.${pkgs.system}.mnw.devMode
   ];
 }
