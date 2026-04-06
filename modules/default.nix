@@ -1,15 +1,21 @@
 _: {
   imports = [
     ./alacritty.nix
-    ./steam.nix
     ./bash.nix
     ./fish.nix
+    # ./git.nix
+    ./gtk.nix
     ./helix.nix
+    ./home-manager.nix
     ./niri.nix
     ./rofi.nix
-    ./home-manager.nix
+    ./raycast-lin.nix
+    ./steam.nix
+    ./syncthing.nix
     ./system.nix
-    ./gtk.nix
+    ./vesktop.nix
+    # ./waybar.nix
+    ./wireshark.nix
     ./xwayland.nix
     # ./xwayland-satellite.nix
     ./xdg-portal.nix
