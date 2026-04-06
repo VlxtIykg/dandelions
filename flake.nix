@@ -39,6 +39,7 @@
       raycast-lin,
       helix-flake,
       mnw,
+      chaotic,
       ...
     }:
     let
@@ -68,6 +69,8 @@
         import ./lib/adios.nix {
           inherit pkgs inputs;
           adios = inputs.adios.adios;
+          # adios-wrappers = inputs.adios-wrappers.yggdrasil;
+          adios-wrappers = inputs.adios-wrappers.wrapperModules;
         }
       );
 
@@ -82,6 +85,7 @@
           bat = wrappers.bat.drv;
           mnw = import ./wrappers/mnw/default.nix { inherit pkgs mnw; };
 
+          # This path is looking /dandelions/gitconf.nix not /dandelions/wrappers/git/gitconfig.nix
           gitLappy = wrappers.git {
             ignoreFile = ./ignore;
             iniConfig = import ./hosts/common/core/gitUserSettings.nix { inherit inputs; };
@@ -94,6 +98,7 @@
 
       devShells = forAllSystems (
         pkgs: system: {
+          allowSubstitutes = false;
           default = import ./hosts/common/core/shell.nix { inherit inputs system pkgs; };
           radio = import ./hosts/radio/core/shell.nix { inherit inputs system pkgs; };
           # otherUser = ; # for future user, on lap1, pi1, lap2, friendlap1, friendGc2lap1, friendGc2lap2
