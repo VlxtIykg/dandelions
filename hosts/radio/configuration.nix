@@ -174,11 +174,12 @@
       alacritt.enable = true;
       fish.enable = true;
       rofi.enable = true;
+      raycast.enable = true;
       steam.enable = true;
       xdg-portal.enable = true;
       niri = {
         enable = true;
-        wallpaper = "Fantasy-Autumn.png";
+        wallpaper = "girlWCigg.png";
         wallpaperSource = ../../assets/wallpapers;
       };
       helix.enable = true;
