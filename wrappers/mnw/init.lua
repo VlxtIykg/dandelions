@@ -17,6 +17,12 @@ require("lz.n").load("lazy")
 vim.lsp.enable({
   "astro",
   "bashls",
+  -- "fish_lsp",
+  -- "gleam",
   "lua_ls",
+  "nil_ls",
+  -- "basedpyright",
   "ts_ls",
+  -- "tinymist",
+  "clangd",
 })
