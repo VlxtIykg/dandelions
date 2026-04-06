@@ -10,9 +10,11 @@
   hardware = {
     nvidia = {
       modesetting.enable = true;
-      open = true;
+      # open = true;
+      open = false;
       nvidiaSettings = true;
-      package = pkgs.linuxPackages_cachyos-lto.nvidiaPackages.beta;
+      # package = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
 
     graphics = {
