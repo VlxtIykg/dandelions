@@ -12,3 +12,7 @@ require("init")
 require("lz.n").load("lazy")
 -- require("wrappers.mnw.nvim.after.showkeys")
 
+-- Add to this whenever you add a new server to the `lsp` folder!
+-- Ridiculous that nvim can't load them for you as far as I can tell
+vim.lsp.enable({
+})
