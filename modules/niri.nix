@@ -70,7 +70,7 @@ in
           clipboard.disable-primary = true;
 
           spawn-at-startup = [
-            { command = [ "zen" ]; }
+            { command = [ "zen-beta" ]; }
             {
               command = [
                 "swaybg"
@@ -164,14 +164,18 @@ in
 
           binds = {
             "Alt+Q".action = spawn "alacritty";
-            "Alt+D".action = spawn "rofi" "-show" "drun";
-            "Alt+F".action = spawn "zen";
+            "Alt+Shift+D".action = spawn "vicinae" "toggle";
+            "Alt+Shift+Z".action = spawn "vicinae" "close";
+            "Alt+Shift+X".action = spawn "vicinae" "open";
+            # "Alt+D".action = spawn "rofi" "-show" "drun";
+            "Alt+Shift+F".action = spawn "zen-beta";
             # "Alt+G".action = spawn "firefox";
             "Alt+C".action = close-window;
 
             "Alt+S".action.screenshot = [ ];
             "Print".action.screenshot-screen = [ ];
             "Alt+Print".action.screenshot-window = [ ];
+            "Alt+Shift+Y".action = fullscreen-window;
 
             "Alt+Shift+W".action = move-window-up;
             "Alt+Shift+S".action = move-window-down;
@@ -236,7 +240,7 @@ in
             };
             workspace-switch.kind = {
               easing.curve = "ease-out-expo";
-              easing.duration-ms = 1500;
+              easing.duration-ms = 500;
             };
           };
 
@@ -245,6 +249,10 @@ in
 
           outputs = {
             "HDMI-A-1" = {
+              position = {
+                x = 1920;
+                y = 0;
+              };
               mode = # Sets the resolution and refresh rate
                 {
                   width = 1920;
@@ -253,13 +261,17 @@ in
                 };
             };
             "DP-1" = {
+              position = {
+                x = 0;
+                y = 0;
+              };
               mode = # Sets the resolution and refresh rate
                 {
                   width = 1920;
                   height = 1080;
                   refresh = 180.003;
                 };
-              variable-refresh-rate = true;
+              # variable-refresh-rate = true;
             };
           };
         };
