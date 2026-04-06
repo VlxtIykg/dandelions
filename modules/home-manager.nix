@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
 let
@@ -39,18 +40,16 @@ in
 
           # '';
           # file.backupNixos.executable = true;
+          # put simple curl script in backupNixos then run bash script to curl the script
           file.updateNixos.text = ''
             #!/usr/bin/env bash
-            export path=/etc/nixos/dandelions/
+            export gitConfigPath=/data/dandelions
             export TMP_NIXCONFIG_FOLDER=/tmp/tmpnixconfigDir
             sudo mkdir -p --mode=777 $TMP_NIXCONFIG_FOLDER
-            echo -rptgDovh --delete --progress --exclude-from=$path.gitignore --partial $path $TMP_NIXCONFIG_FOLDER
-            sudo rsync -rptgDovh --delete --progress --exclude=$path/\.git --exclude=$path/\.envrc --exclude-from=$path/.gitignore --partial $path $TMP_NIXCONFIG_FOLDER
+            sudo rsync -rptgDovh --delete --progress --exclude-from=$gitConfigPath/.gitignore --partial $gitConfigPath $TMP_NIXCONFIG_FOLDER
+            sudo rm -rfv $TMP_NIXCONFIG_FOLDER/.git
             nixos-rebuild test --show-trace --sudo --flake $TMP_NIXCONFIG_FOLDER#radio;
 
-            # Add in switch case for diff exit code in future for more descriptive error or just igonre :shrug:
-            # case:
-            # esac
             if [ $? == 0 ]; then
             	clear && nix run nixpkgs#nyancat -- -f 2;
             	echo -en "\x1b[33mSystem has swapped to the new configuration!\n\x1b[0m"
@@ -59,6 +58,13 @@ in
             fi
           '';
           file.updateNixos.executable = true;
+          file.".config/direnv/direnv.toml".text = ''
+            [global]
+            log_filter="^$"
+          '';
+          file.".profile".text = ''
+            export PATH="$PATH:/home/kami/.bun/bin"
+          '';
           inherit stateVersion;
         };
       };
