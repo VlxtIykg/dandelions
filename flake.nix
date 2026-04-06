@@ -89,9 +89,6 @@
             # ignoreFile = ./gitignore;
           };
 
-          # chromium = wrappers.ungoogled-chromium { };
-
-          # vencord = wrappers.vencord { };
         }
       );
 
