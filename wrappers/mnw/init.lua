@@ -16,5 +16,6 @@ require("lz.n").load("lazy")
 -- Ridiculous that nvim can't load them for you as far as I can tell
 vim.lsp.enable({
   "astro",
+  "lua_ls",
   "ts_ls",
 })
