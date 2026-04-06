@@ -1,0 +1,216 @@
+vim.env.FZF_DEFAULT_OPTS = nil
+local utils = require("fzf-lua.utils")
+local path = require("fzf-lua.path")
+
+-- Given some bufnr, return whether it should be included. We filter out most
+-- buffers that aren't listed, except help files
+local function filter_unlisted_buffers(bufnr)
+  local ft = vim.bo[bufnr].filetype
+  local is_listed = vim.bo[bufnr].buflisted
+
+  if ft == "help" then
+    return true
+  else
+    return is_listed
+  end
+end
+
+-- Return a list of the open bufnrs, sorted by how recently they were accessed
+local function get_sorted_buflist()
+  local info = vim.fn.getbufinfo()
+
+  -- Sort on how recently the buffer was used
+  info = vim.fn.sort(info, function(a, b)
+    return a.lastused < b.lastused
+  end)
+
+  -- Don't include the buffer if it was hidden or unlisted (with an exception
+  -- for helpfiles, which can be unlisted)
+  info = vim.tbl_filter(function(current)
+    return filter_unlisted_buffers(current.bufnr) and current.hidden == 0
+  end, info)
+
+  -- Take the full info and turn it into just the bufnrs
+  local bufnrs = {}
+  for index, current in ipairs(info) do
+    bufnrs[index] = current.bufnr
+  end
+
+  return bufnrs
+end
+
+-- Custom action that allows deleting the current buffer. If you do, it swaps to
+-- the last buffer you used!
+local function delete_buffer_action(selected, opts)
+  for _, sel in ipairs(selected) do
+    local file = path.entry_to_file(sel, opts)
+    local buf_to_delete = file.bufnr
+
+    -- If the current file has unsaved changes, prompt the user to save
+    local is_dirty = utils.buffer_is_dirty(buf_to_delete, true, false)
+    local save_dialog = function()
+      if buf_to_delete == nil then
+        print("Could not save buffer Line 53:")
+        print(vim.fn.getcwd())
+      else
+        return utils.save_dialog(buf_to_delete)
+      end
+    end
+
+    if buf_to_delete and (not is_dirty or vim.api.nvim_buf_call(buf_to_delete, save_dialog)) then
+      local sorted_buflist = get_sorted_buflist()
+      local current_buf = sorted_buflist[1]
+
+      if buf_to_delete == current_buf then
+        local windows = vim.fn.win_findbuf(current_buf)
+
+        -- We need the buffer we accessed most recently after the current buf.
+        -- We can't use alternate file here, because the REAL current buf is
+        -- actually the picker - so we need to go two files back.
+        local new_buf = sorted_buflist[2]
+
+        for _, win in ipairs(windows) do
+          vim.api.nvim_win_set_buf(win, new_buf)
+        end
+      end
+
+      vim.api.nvim_buf_delete(buf_to_delete, { force = true })
+    end
+  end
+end
+
+require("fzf-lua").setup({
+  previewers = {
+    builtin = {
+      -- This breaks tex files, due to an error with `standalone.cls`! I hate
+      -- snacks more and more, folke loves abandonware
+      snacks_image = { enabled = false },
+    },
+  },
+
+  -- Set up basic vim bindings.
+  keymap = {
+    fzf = {
+      true, -- Inherit from default fzf keybinds
+      jump = "accept",
+
+      -- Normal (ish) mode keybinds.
+      ["ctrl-j"] = "down",
+      ["ctrl-k"] = "up",
+      ["ctrl-l"] = "accept",
+      ["ctrl-f"] = "jump",
+    },
+    builtin = {
+      true,
+      ["<A-S-j>"] = "preview-down",
+      ["<A-S-k>"] = "preview-up",
+      ["<C-Space>"] = "toggle-preview",
+    },
+  },
+
+  -- Autoselect current document symbol in `:FzfLua lsp_document_symbols` (bound
+  -- to gO by default)
+  lsp = {
+    symbols = {
+      locate = true,
+    },
+  },
+
+  buffers = {
+    fzf_opts = {
+      ["--header-lines"] = false,
+    },
+
+    actions = {
+      ["ctrl-x"] = {
+        reload = true,
+        fn = delete_buffer_action,
+      },
+    },
+
+    keymap = {
+      fzf = {
+        -- Buffer picker shouldn't start on the current buffer
+        -- TODO: find a way to not trigger this when closing the current buffer
+        load = "pos(2)",
+      },
+    },
+
+    -- We want to show helpfiles, but they're unlisted - so we allow all
+    -- unlisted buffers, but filter them for only helpfiles
+    show_unlisted = true,
+    filter = filter_unlisted_buffers,
+  },
+
+  files = {
+    -- Changed from the default to also remove .direnv
+    fd_opts = "--color=never --hidden --type f --type l --exclude .git --exclude .direnv",
+  },
+
+  -- Add fixed-strings to the default, and make ctrl-r toggle regex search on/off
+  grep = {
+    rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --fixed-strings -e",
+    actions = {
+      ["ctrl-g"] = false,
+      ["ctrl-r"] = {
+        fn = function(_, opts)
+          FzfLua.actions.toggle_flag(
+            _,
+            vim.tbl_extend("force", opts, {
+              toggle_flag = "--fixed-strings",
+            })
+          )
+        end,
+        header = function(o)
+          local flag = "--fixed-strings"
+          local cmd = o.cmd or o._cmd
+          if cmd and cmd:match(utils.lua_regex_escape(flag)) then
+            return "enable regex"
+          else
+            return "disable regex"
+          end
+        end,
+      },
+    },
+  },
+
+  -- Automatically create an fzf colorscheme based on our nvim colorscheme
+  fzf_colors = true,
+
+  winopts = {
+    row = 0.50,
+    preview = {
+      layout = "vertical",
+      vertical = "up:45%",
+    },
+  },
+
+  fzf_opts = {
+    ["--cycle"] = true,
+  },
+})
+
+FzfLua.register_ui_select()
+
+-- Replace default LSP bindings with fzf-lua equivalents We don't mess with
+-- rename and code actions - just actions that use a picker
+nnoremap("grr", FzfLua.lsp_references)
+nnoremap("gri", FzfLua.lsp_definitions)
+nnoremap("grt", FzfLua.lsp_typedefs)
+nnoremap("gO", FzfLua.lsp_document_symbols)
+
+-- Not a default bind, but good for some LSPs like gleam, where you want to see
+-- diagnostics in other files
+nnoremap("grd", FzfLua.diagnostics_workspace)
+
+nnoremap("<leader>b", FzfLua.buffers, { desc = "Swap buffer, including hidden buffers" })
+
+nnoremap("<leader>f", FzfLua.files, { desc = "Add new file in project" })
+nnoremap("<leader>F", function()
+  FzfLua.files({ cwd = vim.fn.expand("%:p:h") })
+end, { desc = "Add new file in current folder" })
+
+nnoremap("<leader>s", FzfLua.live_grep, { desc = "Search text in project" })
+nnoremap("<leader>S", function()
+  FzfLua.live_grep_native({ cwd = vim.fn.expand("%:p:h") })
+end, { desc = "Search text in current folder" })
