@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+export gitConfigPath=/data/dandelions
+export TMP_NIXCONFIG_FOLDER=/tmp/tmpnixconfigDir
+sudo mkdir -p --mode=777 $TMP_NIXCONFIG_FOLDER
+sudo rsync -vca --delete --progress --exclude-from=$gitConfigPath/.gitignore --partial $gitConfigPath/ $TMP_NIXCONFIG_FOLDER/
+sudo rm -rfv $TMP_NIXCONFIG_FOLDER/.git
+nixos-rebuild test --sudo --show-trace --impure --flake $TMP_NIXCONFIG_FOLDER#radio;
+
+if [ $? == 0 ]; then
+	clear && nix run nixpkgs#nyancat -- -f 2;
+	echo -en "\x1b[33mSystem has swapped to the new configuration!\n\x1b[30mThis is temporary and will not be reflected when selecting the most recent config.\x1b[0m"
+else
+	echo -en "\n---\nCOULD NOT \x1b[31mREMOVE\x1b[0m TMP FOLDER??!?!?!??!?!?!??!??!?!?\n\n"
+fi
