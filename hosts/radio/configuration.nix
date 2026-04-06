@@ -13,7 +13,24 @@
     "flakes"
   ];
 
-  system.modulesTree = [ (lib.getOutput "modules" pkgs.linuxPackages_cachyos-lto.kernel) ];
+  nix.settings.substituters = lib.mkForce [
+    "https://cache.nixos.org"
+    "https://attic.xuyh0120.win/lantian"
+    "https://cache.garnix.io"
+  ];
+  nix.settings.extra-substituters = [ "https://vicinae.cachix.org" ];
+  nix.settings.trusted-public-keys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+    "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+  ];
+  nix.settings.extra-trusted-public-keys = [
+    "vicinae.cachix.org-1:1kDrfienkGHPYbkpNj1mWTr7Fm1+zcenzgTizIcI3oc="
+  ];
+
+  system.modulesTree = [
+    (lib.getOutput "modules" pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto.kernel)
+  ];
 
   documentation = {
     enable = true;

@@ -28,7 +28,7 @@
       "btrfs"
       "vfat"
     ];
-    kernelPackages = pkgs.linuxPackages_cachyos-lto;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
     kernelModules = lib.mkForce [
       "kvm-amd"
       "nvidia"
