@@ -1,9 +1,10 @@
 { config, lib, ... }:
 let
-  inherit (lib.destiny) colorPicker colorScheme;
+  inherit (lib.destiny) colorScheme;
   inherit (lib.options) mkEnableOption;
   inherit (config.destiny.flake.system) user;
 
+  colors = lib.destiny.colorScheme;
   cfg = config.destiny.programs.alacritt;
 in
 {
@@ -31,31 +32,31 @@ in
             };
 
             normal = {
-              black = colorPicker 1;
-              blue = colorPicker 1;
-              cyan = colorPicker 2;
-              green = colorPicker 3;
-              magenta = colorPicker 4;
-              red = colorPicker 5;
-              white = colorPicker 6;
-              yellow = colorPicker 7;
+              black = colors.black;
+              blue = colors.blue;
+              cyan = colors.blue;
+              green = colors.green;
+              magenta = colors.orange;
+              red = colors.red;
+              white = colors.fg;
+              yellow = colors.yellow;
             };
           };
 
           font = {
-            size = 12.0;
+            size = 12.65;
             bold = {
-              family = "Fira Code";
+              family = "MonaspiceNe NF";
               style = "Bold";
             };
 
             italic = {
-              family = "Fira Code";
+              family = "MonaspiceNe NF";
               style = "Italic";
             };
 
             normal = {
-              family = "Fira Code";
+              family = "MonaspiceNe NF";
               style = "Retina";
             };
           };

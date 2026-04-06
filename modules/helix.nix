@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  # helix-flake,
   ...
 }:
 # Nix, dear bastion of immutability, of functional programming
@@ -22,11 +23,12 @@
 # with just functions and minimal control flow...
 #
 # Imagine the power, if you had switch statements.!
+# By esther aka esther-ff on github, oh thank you for the kind words:)
 let
   cfg = config.destiny.programs.helix;
 
   inherit (config.destiny.flake.system) user;
-  inherit (lib.destiny) colorPicker flattenToml colorScheme;
+  inherit (lib.destiny) flattenToml colorScheme;
   inherit (colorScheme) fg bg;
   inherit (lib) mkIf;
   inherit (lib.options) mkEnableOption;
@@ -183,7 +185,7 @@ let
       main.fg = "text";
     }; # regex
     special = {
-      main.fg = "cyan";
+      main.fg = "yellow";
     };
 
     attribute = {
@@ -191,10 +193,10 @@ let
     };
 
     type = {
-      main.fg = "cyan";
+      main.fg = "red";
 
       builtin = {
-        fg = "cyan";
+        fg = "red";
       };
       enum.variant = {
         fg = "blue";
@@ -202,7 +204,7 @@ let
     };
 
     constructor = {
-      main.fg = "blue";
+      main.fg = "yellow";
     };
 
     constant = {
@@ -253,19 +255,18 @@ let
     };
 
     comment = {
-      main.fg = "darkFg";
       modifiers = [ "bold" ];
 
       line = {
-        fg = "darkFg";
+        fg = "gray";
         modifiers = [ "bold" ];
       };
       block = {
-        fg = "darkFg";
+        fg = "gray";
         modifiers = [ "bold" ];
       };
       block.documentation = {
-        fg = "darkFg";
+        fg = "gray";
         modifiers = [
           "bold"
           "italic"
@@ -280,10 +281,10 @@ let
         fg = "cyan";
       };
       parameter = {
-        fg = "magenta";
+        fg = "text";
       };
       other.member = {
-        fg = "text";
+        fg = "green";
       };
     };
 
@@ -297,7 +298,7 @@ let
         fg = "blue";
       };
       bracket = {
-        fg = "blue";
+        fg = "white";
       };
     };
 
@@ -320,6 +321,11 @@ let
         };
         exception = { };
       };
+
+      storage = {
+        type.fg = "yellow";
+      };
+
       operator = {
         fg = "green";
       }; # `or`, `and`, `in`.
@@ -345,10 +351,10 @@ let
         fg = "cyan";
       }; # Class / Struct methods.
       macro = {
-        fg = "cyan";
+        fg = "red";
       };
       special = {
-        fg = "cyan";
+        fg = "yellow";
       }; # Preprocessor in C.
     };
 
@@ -376,9 +382,8 @@ let
         };
 
         bg = "bg";
-        fg = "fg";
-
       };
+
       warning = {
         underline = {
           color = "yellow";
@@ -386,7 +391,6 @@ let
         };
 
         bg = "bg";
-        fg = "fg";
       };
 
       error = {
@@ -396,7 +400,6 @@ let
         };
 
         bg = "bg";
-        fg = "fg";
       };
 
       unnecessary = {
@@ -448,35 +451,35 @@ let
   };
 
   theme = {
-    palette = {
+    palette = rec {
       inherit fg;
       inherit bg;
 
-      lightBg = colorScheme.lightBg;
+      lightBg = colorScheme.bg;
 
       text = fg;
-      textDark = colorScheme.darkFg;
+      textDark = colorScheme.fg;
 
       dark = bg;
       light = fg;
 
-      default = colorPicker 0;
-      black = colorPicker 1;
-      blue = colorPicker 2;
-      cyan = colorPicker 3;
-      green = colorPicker 4;
-      magenta = colorPicker 5;
-      red = colorPicker 6;
-      white = colorPicker 7;
-      yellow = colorPicker 8;
-      gray = colorPicker 9;
+      default = fg;
+      black = colorScheme.black;
+      blue = colorScheme.blue;
+      cyan = colorScheme.blue;
+      green = colorScheme.green;
+      magenta = colorScheme.orange;
+      red = colorScheme.red;
+      white = colorScheme.white;
+      yellow = colorScheme.yellow;
+      gray = colorScheme.gray;
 
-      light-black = colorPicker 10;
-      light-blue = colorPicker 11;
-      light-cyan = colorPicker 12;
-      light-green = colorPicker 13;
-      light-magenta = colorPicker 14;
-      light-red = colorPicker 15;
+      light-black = black;
+      light-blue = blue;
+      light-cyan = blue;
+      light-green = green;
+      light-magenta = magenta;
+      light-red = red;
     };
   }
   // (flattenToml themeSet);
@@ -490,11 +493,14 @@ in
     home-manager.users.${user} = {
       programs.helix = {
         enable = true;
+        # package = helix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
         themes = {
-          montrouge = theme;
+          estherEverforest = theme;
         };
         settings = {
-          theme = "gruber-darker";
+          # theme = "tokyonight_storm";
+          theme = "everforest_dark";
           editor = {
             completion-timeout = 5;
             line-number = "relative";
