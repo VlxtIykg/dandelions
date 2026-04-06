@@ -23,6 +23,7 @@ vim.lsp.enable({
   "nil_ls",
   -- "basedpyright",
   "ts_ls",
+  "marksman",
   -- "tinymist",
   "clangd",
 })
