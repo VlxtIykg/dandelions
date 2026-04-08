@@ -28,5 +28,4 @@ mnw.lib.wrap pkgs {
       impure = "/data/dandelions/wrappers/mnw/nvim";
     };
   };
-
 }
