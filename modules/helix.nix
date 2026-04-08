@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  # helix-flake,
   ...
 }:
 # Nix, dear bastion of immutability, of functional programming

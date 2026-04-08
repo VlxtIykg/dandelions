@@ -5,7 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     stable-nixpkgs.url = "github:NixOS/nixpkgs/1c1c9b3f5ec0421eaa0f22746295466ee6a8d48f";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
-    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # :( it is now deprecated
     home-manager = {
       url = "github:nix-community/home-manager/master"; # unstable
       # url = "github:nix-community/home-manager/release-25.05"; # stable
@@ -23,7 +22,6 @@
     niri.url = "github:sodiboo/niri-flake";
     raycast-lin.url = "github:vicinaehq/vicinae";
     raycast-lin-ext.url = "github:vicinaehq/extensions";
-    # raycast-lin-ext.inputs.nixpkgs.follows = "nixpkgs";
     helix-flake.url = "github:helix-editor/helix";
     mnw.url = "github:Gerg-L/mnw";
   };
@@ -39,11 +37,9 @@
       raycast-lin,
       helix-flake,
       mnw,
-      chaotic,
       ...
     }:
     let
-      # system = inputs.nixpkgs.legacyPackages."x86_64-linux";
       system = "x86_64-linux";
       pkgs = inputs.nixpkgs.legacyPackages.${system};
       lib = import ./lib/default.nix nixpkgs.lib;
@@ -69,7 +65,6 @@
         import ./lib/adios.nix {
           inherit pkgs inputs;
           adios = inputs.adios.adios;
-          # adios-wrappers = inputs.adios-wrappers.yggdrasil;
           adios-wrappers = inputs.adios-wrappers.wrapperModules;
         }
       );
@@ -84,15 +79,6 @@
           gitPC = wrappers.git.drv;
           bat = wrappers.bat.drv;
           mnw = import ./wrappers/mnw/default.nix { inherit pkgs mnw; };
-
-          # This path is looking /dandelions/gitconf.nix not /dandelions/wrappers/git/gitconfig.nix
-          gitLappy = wrappers.git {
-            ignoreFile = ./ignore;
-            iniConfig = import ./hosts/common/core/gitUserSettings.nix { inherit inputs; };
-            # iniConfig = import ./wrappers/git/gitSettings.nix { inherit inputs; };
-            # ignoreFile = ./gitignore;
-          };
-
         }
       );
 

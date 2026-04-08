@@ -22,6 +22,15 @@ let
           {
             nixpkgs.overlays = [
               nix-cachyos-kernel.overlays.pinned
+              (final: prev: {
+                cloudflare-warp = prev.cloudflare-warp.overrideAttrs (old: rec {
+                  version = "2025.10.186.0";
+                  src = prev.fetchurl {
+                    url = "https://pkg.cloudflareclient.com/pool/noble/main/c/cloudflare-warp/cloudflare-warp_${version}_amd64.deb";
+                    hash = "sha256-l+csDSBXRAFb2075ciCAlE0bS5F48mAIK/Bv1r3Q8GE=";
+                  };
+                });
+              })
             ];
 
           }

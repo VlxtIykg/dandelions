@@ -175,7 +175,9 @@
       ports = [ 7711 ];
       settings.PasswordAuthentication = true;
     };
+
     cloudflare-warp.enable = true;
+
     resolved = {
       enable = true;
       settings.Resolve = {
@@ -192,8 +194,8 @@
         FallbackDNS = [
           "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
           "192.168.1.200"
-          "2606:4700:4700::1111"
-          "1.1.1.1"
+          # "2606:4700:4700::1111"
+          # "1.1.1.1"
           # "1.0.0.1"
         ];
         ResolveUnicastSingleLabel = true;
@@ -254,6 +256,7 @@
         enable = true;
         useSatellite = true;
       };
+      something.enable = true;
       # xwayland-satellite = { enable = true; };
     };
   };
