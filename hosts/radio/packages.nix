@@ -10,6 +10,7 @@ with pkgs;
   inputs.self.packages.${pkgs.system}.bat
   inputs.self.packages.${pkgs.system}.mnw
   inputs.self.packages.${pkgs.system}.gitPC
+  inputs.self.packages.${pkgs.system}.mangowc
   # inputs.self.packages.${pkgs.system}.cfwarp
 
   # Language
@@ -17,7 +18,7 @@ with pkgs;
   shellcheck
   shfmt
   bun
-  nodejs_25
+  nodejs_26
   typescript-language-server
   gcc
   clang
@@ -28,19 +29,32 @@ with pkgs;
   nil
   nixfmt
   shellify
+  lua
   lua-language-server
+  cargo-mommy
+  rustup
+  rustfmt
+  rust-analyzer-unwrapped
+  rustdesk-flutter
+  sqlite
 
   # Comms Apps
   element-desktop # temporary matrix client
   nheko # also temporary matrix client
   signal-desktop
   thunderbird
-  vesktop
+  teams-for-linux
 
   # Personal QOL (FOSS)
   joplin-desktop
   libreoffice
   kdePackages.okular
+  kdePackages.gwenview
+  kdePackages.spectacle
+  kdePackages.kdeconnect-kde
+  thorium-reader
+  unzip
+  ncdu
 
   # Browser
   ungoogled-chromium
@@ -67,6 +81,10 @@ with pkgs;
   bluetui
   obs-studio
   thunar
+  dnsmasq
+  virt-manager
+  libvirt
+  feishin
 
   # QOL
   btop
@@ -74,15 +92,31 @@ with pkgs;
   dig
   tldr
   fzf
+  (ffmpeg.override {
+    withUnfree = true;
+    withDebug = true;
+  })
   vlc
   ripgrep
   fd
   plocate
   android-tools
   wl-clipboard-rs # neovim dependency
+  oneko
 
-  vesktop
   gemini-cli
   cloudflare-warp # warp-cli 2026.1.150.0 does not let me connect to the internet
   # or resolve to domains.
+
+  # dependency
+  xorg-server
+  wlr-randr
+  dconf
+  nfs-utils
+  gvfs
+  guestfs-tools
+  virtiofsd
+  rpcbind
+  # wev
+  xev
 ]

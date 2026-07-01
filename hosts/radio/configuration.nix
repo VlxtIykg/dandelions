@@ -225,6 +225,7 @@
       raycast.enable = true;
       steam.enable = true;
       xdg-portal.enable = true;
+      kdeconnect.enable = true;
       niri = {
         enable = true;
         wallpaper = "girlWCigg.png";
