@@ -144,6 +144,20 @@
     keyMap = "us";
   };
 
+  virtualisation.libvirtd = {
+    enable = true;
+    allowedBridges = [ "virbr0" ];
+    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  };
+
+  programs = {
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+    virt-manager.enable = true;
+  };
+
   services = {
     cloudflare-warp.enable = true;
 
@@ -208,6 +222,7 @@
       "wheel"
       "networkmanager"
       "kvm"
+      "libvirtd"
     ];
     shell = pkgs.bash;
   };

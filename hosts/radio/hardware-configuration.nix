@@ -211,6 +211,29 @@
       ];
     };
 
+    interfaces.virbr0 = {
+      virtual = true;
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = "192.168.1.247";
+          prefixLength = 24;
+        }
+      ];
+    };
+
+    # bridges = {
+    #   br0 = {
+    #     interfaces = [
+    #       "vibr0"
+    #     ];
+    #   };
+    # };
+    # nat = {
+    #   enable = true;
+    #   internalInterfaces = [ "virbr0" ];
+    # };
+
     defaultGateway = {
       address = "192.168.1.1";
       interface = "enp4s0";
