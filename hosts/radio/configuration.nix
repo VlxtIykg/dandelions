@@ -108,13 +108,6 @@
     permittedInsecurePackages = [ "olm-3.2.16" ];
   };
 
-  programs = {
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
-  };
-
   systemd = {
     network = {
       enable = false;
