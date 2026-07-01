@@ -156,6 +156,7 @@
       nix-direnv.enable = true;
     };
     virt-manager.enable = true;
+    fish.useBabelfish = true;
   };
 
   services = {
