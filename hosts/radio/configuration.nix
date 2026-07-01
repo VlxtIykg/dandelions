@@ -219,6 +219,8 @@
   users.users.kami = {
     isNormalUser = true;
     extraGroups = [
+      "audio"
+      "video"
       "wheel"
       "networkmanager"
       "kvm"
