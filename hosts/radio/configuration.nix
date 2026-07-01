@@ -145,15 +145,11 @@
   };
 
   services = {
-    xserver = {
-      videoDrivers = [ "nvidia" ];
-      xkb = {
-        layout = "us";
-      };
-      displayManager = {
-        lightdm.enable = false;
-        startx.enable = false;
-      };
+    cloudflare-warp.enable = true;
+
+    locate = {
+      enable = true;
+      package = pkgs.plocate;
     };
 
     pipewire = {
@@ -169,29 +165,39 @@
       settings.PasswordAuthentication = true;
     };
 
-    cloudflare-warp.enable = true;
-
     resolved = {
       enable = true;
       settings.Resolve = {
         Domains = ".";
         DNSOverTLS = false;
+        Cache = "no-negative";
         DNSSEC = true;
         DNS = [
           "192.168.1.200"
-          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          # "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
           # "2606:4700:4700::1111"
           # "1.1.1.1"
           # "1.0.0.1"
         ];
         FallbackDNS = [
-          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
-          "192.168.1.200"
+          # "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          # "192.168.1.200"
           # "2606:4700:4700::1111"
-          # "1.1.1.1"
-          # "1.0.0.1"
+          "1.1.1.1"
+          "1.0.0.1"
         ];
         ResolveUnicastSingleLabel = true;
+      };
+
+    };
+    xserver = {
+      videoDrivers = [ "nvidia" ];
+      xkb = {
+        layout = "us";
+      };
+      displayManager = {
+        lightdm.enable = false;
+        startx.enable = false;
       };
     };
   };

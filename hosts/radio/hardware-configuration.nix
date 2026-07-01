@@ -12,6 +12,7 @@
       modesetting.enable = true;
       open = false;
       nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
 
@@ -215,19 +216,49 @@
       address = "192.168.1.1";
       interface = "enp4s0";
     };
-    defaultGateway6 = {
-      address = "fd00:11a0:1309:1d84:4bba:3620:ebb1:01";
-      interface = "enp4s0";
-    };
 
-    firewall.allowedTCPPorts = [
-      22
-      80
-      443
-      21
-      20
-      7711
-      8384
-    ];
+    # firewall.allowedTCPPorts = [
+    #   20
+    #   21
+    #   22
+    #   80
+    #   443
+    #   7711
+    #   8384
+    # ];
+    #
+    firewall =
+      let
+        kdeconnectPortRanges = [
+          {
+            from = 1714;
+            to = 1764;
+
+          }
+        ];
+      in
+      {
+        allowedTCPPorts = [
+          20
+          21
+          22
+          80
+          443
+          7711
+          8384
+        ];
+
+        allowedUDPPorts = [
+          53
+          67
+        ];
+
+        allowedTCPPortRanges = kdeconnectPortRanges;
+        allowedUDPPortRanges = kdeconnectPortRanges;
+
+        trustedInterfaces = [
+          "virbr0"
+        ];
+      };
   };
 }
