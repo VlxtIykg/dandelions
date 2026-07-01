@@ -28,14 +28,19 @@ in
           );
         in
         {
-          DisableAppUpdate = false;
+          AutofillAddressEnabled = false;
+          AutofillCreditCardEnabled = false;
+          DisableAppUpdate = true;
           DisableFeedbackCommands = true;
           DisableFirefoxAccounts = true;
           DisableFirefoxStudies = true;
           DisableMasterPasswordCreation = true;
           DisableSetDesktopBackground = true;
           DisableBookmarksToolbar = true;
+          DisablePocket = true;
+          DisableTelemetry = true;
           DontCheckDefaultBrowser = true;
+          OfferToSaveLogins = false;
           FirefoxSuggest.WebSuggestions = false;
           FirefoxSuggest.SponsoredSuggestions = false;
           FirefoxSuggest.ImproveSuggest = false;
@@ -44,7 +49,18 @@ in
           GenerativeAI.Locked = true;
           HttpsOnlyMode = "forced_enabled";
           NoDefaultBookmarks = true;
-          Preferences = mkLockedAttrs { "browser.aboutConfig.showWarning" = false; };
+          Preferences = mkLockedAttrs {
+            "browser.aboutConfig.showWarning" = false;
+            "browser.ml.chat.enabled" = false;
+            "browser.ml.chat.menu" = false;
+            "browser.ml.linkPreview.enabled" = false;
+            "pdfjs.enableAltText" = false;
+            "extensions.ml.enable" = false;
+            "browser.ml.enabled" = false;
+            "security.insecure_connection_text.enabled" = true;
+            "security.insecure_connection_text.pbmode.enabled" = true;
+            "security.ssl.errorReporting.enabled" = false;
+          };
         };
     };
   };

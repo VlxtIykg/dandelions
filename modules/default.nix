@@ -6,13 +6,13 @@ _: {
     ./gtk.nix
     ./helix.nix
     ./home-manager.nix
+    ./kdeconnect.nix
     ./niri.nix
     ./rofi.nix
     ./raycast-lin.nix
     ./steam.nix
     ./syncthing.nix
     ./system.nix
-    ./vesktop.nix
     ./wireshark.nix
     ./xwayland.nix
     # ./xwayland-satellite.nix
