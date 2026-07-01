@@ -246,6 +246,7 @@
       kdeconnect.enable = true;
       niri = {
         enable = true;
+        wallpaper = "nordwall3.png";
         wallpaper = "girlWCigg.png";
         wallpaperSource = ../../assets/wallpapers;
       };

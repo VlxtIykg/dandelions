@@ -104,8 +104,14 @@
           term_font_spacing: 1
           term_margin: 0
           term_margin_gradient: 0
-          wallpaper: tftp():/limine/wallpapers/sunset-scenery-minimalist.jpeg
         '';
+        style.wallpapers = [
+          "/data/dandelions/assets/wallpapers/neon_car.png"
+          "/data/dandelions/assets/wallpapers/lofoten2.jpeg"
+          "/data/dandelions/assets/wallpapers/midnight-reflections-moonlit-sea.jpeg"
+          "/data/dandelions/assets/wallpapers/night_city.png"
+          "/data/dandelions/assets/wallpapers/sunset-in-thick-forest.png"
+        ];
       };
     };
 
