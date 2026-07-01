@@ -58,8 +58,8 @@
   environment = {
     variables = {
       __GL_THREADED_OPTIMIZATIONS = "0";
-      EDITOR = "hx";
-      VISUAL = "hx";
+      EDITOR = "vim";
+      VISUAL = "vim";
       NIXOS_OZONE_WL = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "wayland";
       WEBKIT_DISABLE_DMABUF_RENDERER = 1;
