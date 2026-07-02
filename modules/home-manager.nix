@@ -32,6 +32,7 @@ in
           home-manager.enable = true;
         };
 
+        manual.manpages.enable = false;
         gtk.enable = true;
         gtk.gtk4.theme = null;
         home = {
