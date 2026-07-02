@@ -245,16 +245,6 @@
       interface = "enp4s0";
     };
 
-    # firewall.allowedTCPPorts = [
-    #   20
-    #   21
-    #   22
-    #   80
-    #   443
-    #   7711
-    #   8384
-    # ];
-    #
     firewall =
       let
         kdeconnectPortRanges = [

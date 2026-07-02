@@ -270,7 +270,6 @@
         '';
       };
       wireshark.enable = true;
-      vesktop.enable = true;
       xwayland = {
         enable = true;
         useSatellite = true;
