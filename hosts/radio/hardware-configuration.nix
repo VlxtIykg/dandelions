@@ -17,7 +17,7 @@
 
     graphics = {
       enable = true;
-      enable32Bit = true;
+      # enable32Bit = true;
     };
 
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

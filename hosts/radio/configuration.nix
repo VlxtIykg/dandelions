@@ -33,9 +33,11 @@
   ];
 
   documentation = {
-    enable = true;
-    dev.enable = true;
-    man.enable = true;
+    enable = false;
+    dev.enable = false;
+    doc.enable = false;
+    man.enable = false;
+    nixos.enable = false;
   };
 
   fonts.enableDefaultPackages = true;
@@ -125,6 +127,26 @@
       ];
     };
 
+    # services.libvirt-default-network = {
+    #   description = "Start libvirt default network";
+    #   after = [ "libvirtd.service" ];
+    #   wantedBy = [ "multi-user.target" ];
+    #   serviceConfig = {
+    #     Type = "oneshot";
+    #     RemainAfterExit = true;
+    #     ExecStart = "${pkgs.libvirt}/bin/virsh net-start default";
+    #     ExecStop = "${pkgs.libvirt}/bin/virsh net-destroy default";
+    #     User = "root";
+    #   };
+    # };
+
+    # services."getty@tty2" = {
+    #   overrideStrategy = "asDropin";
+    #   serviceConfig.ExecStart = [
+    #     ""
+    #     "@${pkgs.util-linux}/sbin/agetty agetty -o '-p -- kami' --login-program ${config.services.getty.loginProgram}  --noclear --keep-baud %I 115200,38400,9600 $TERM"
+    #   ];
+    # };
     # services."warp-daemon-server" = {
     #   enable = true;
     #   after = [ "network.target" ];
@@ -239,7 +261,7 @@
     programs = {
       alacritt.enable = true;
       fish.enable = true;
-      rofi.enable = true;
+      # rofi.enable = true;
       raycast.enable = true;
       steam.enable = true;
       xdg-portal.enable = true;
@@ -247,10 +269,9 @@
       niri = {
         enable = true;
         wallpaper = "nordwall3.png";
-        wallpaper = "girlWCigg.png";
         wallpaperSource = ../../assets/wallpapers;
       };
-      helix.enable = true;
+      # helix.enable = true;
       zen.enable = true;
       bash = {
         enable = true;
@@ -269,7 +290,7 @@
           fi
         '';
       };
-      wireshark.enable = true;
+      # wireshark.enable = true;
       xwayland = {
         enable = true;
         useSatellite = true;

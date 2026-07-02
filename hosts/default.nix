@@ -2,7 +2,6 @@
   inputs,
   lib,
   nix-cachyos-kernel,
-  helix-flake,
   ...
 }:
 let
@@ -29,7 +28,8 @@ let
       ]
       ++ extra;
       specialArgs = {
-        inherit inputs lib helix-flake;
+        inherit inputs lib;
+        # inherit inputs lib helix-flake;
       };
     };
 

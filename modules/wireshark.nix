@@ -1,10 +1,16 @@
-{ config, users, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.destiny.programs.wireshark;
   inherit (lib) types;
   inherit (config.destiny.flake.system) user;
   inherit (lib.options) mkEnableOption mkOption;
-in {
+in
+{
   options.destiny.programs.wireshark = {
     enable = mkEnableOption "wireshark";
 
