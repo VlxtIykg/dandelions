@@ -53,11 +53,11 @@ in
             opacity = 0.98;
           };
         };
-        extensions = with inputs.raycast-lin-ext.packages.${pkgs.stdenv.hostPlatform.system}; [
-          nix
-          awww-switcher
-          fuzzy-files
-          brotab
+        extensions = [
+          # nix
+          # awww-switcher
+          # fuzzy-files
+          # brotab
         ];
       };
     };

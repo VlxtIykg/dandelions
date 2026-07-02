@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    stable-nixpkgs.url = "github:NixOS/nixpkgs/1c1c9b3f5ec0421eaa0f22746295466ee6a8d48f";
+    # stable-nixpkgs.url = "github:NixOS/nixpkgs/1c1c9b3f5ec0421eaa0f22746295466ee6a8d48f";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     home-manager = {
       url = "github:nix-community/home-manager/master"; # unstable
@@ -20,28 +20,28 @@
     adios-wrappers.url = "github:llakala/adios-wrappers";
     adios-wrappers.inputs.adios.follows = "adios";
     niri.url = "github:sodiboo/niri-flake";
-    mangowm = {
-      url = "github:mangowm/mango";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    raycast-lin.url = "github:vicinaehq/vicinae";
-    raycast-lin-ext.url = "github:vicinaehq/extensions";
-    helix-flake.url = "github:helix-editor/helix";
+    # mangowm = {
+    #   url = "github:mangowm/mango";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # raycast-lin.url = "github:vicinaehq/vicinae";
+    # raycast-lin-ext.url = "github:vicinaehq/extensions";
+    # helix-flake.url = "github:helix-editor/helix";
     mnw.url = "github:Gerg-L/mnw";
   };
 
   outputs =
     inputs@{
-      nixpkgs,
-      stable-nixpkgs,
       home-manager,
-      self,
-      niri,
-      mangowm,
-      nix-cachyos-kernel,
-      raycast-lin,
-      helix-flake,
       mnw,
+      nixpkgs,
+      niri,
+      nix-cachyos-kernel,
+      self,
+      # stable-nixpkgs,
+      # mangowm,
+      # raycast-lin,
+      # helix-flake,
       ...
     }:
     let
@@ -53,7 +53,7 @@
           lib
           inputs
           nix-cachyos-kernel
-          helix-flake
+          # helix-flake
           pkgs
           ;
       };

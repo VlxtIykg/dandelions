@@ -35,11 +35,11 @@ with pkgs;
   rustup
   rustfmt
   rust-analyzer-unwrapped
-  rustdesk-flutter
+  # rustdesk-flutter
   sqlite
 
   # Comms Apps
-  element-desktop # temporary matrix client
+  # element-desktop # temporary matrix client
   nheko # also temporary matrix client
   signal-desktop
   thunderbird
@@ -50,15 +50,16 @@ with pkgs;
   libreoffice
   kdePackages.okular
   kdePackages.gwenview
-  kdePackages.spectacle
   kdePackages.kdeconnect-kde
-  thorium-reader
+  # thorium-reader
+  zip
   unzip
   ncdu
 
   # Browser
   ungoogled-chromium
-  firefox
+  lynx
+  # firefox
 
   # Apps I use
   dunst
@@ -72,9 +73,8 @@ with pkgs;
   obsidian
   pulseaudio
   pipewire
-  alacritty
-  ntfs3g
   pavucontrol
+  alacritty
   xdg-desktop-portal
   xwayland-satellite-unstable
   appimage-run
@@ -85,6 +85,7 @@ with pkgs;
   virt-manager
   libvirt
   feishin
+  vicinae
 
   # QOL
   btop
@@ -113,6 +114,7 @@ with pkgs;
   wlr-randr
   dconf
   nfs-utils
+  ntfs3g
   gvfs
   guestfs-tools
   virtiofsd
