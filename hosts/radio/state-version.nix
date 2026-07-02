@@ -1,1 +1,1 @@
-_: { system.stateVersion = "26.05"; }
+_: { system.stateVersion = "26.11"; }

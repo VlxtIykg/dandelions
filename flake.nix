@@ -20,6 +20,10 @@
     adios-wrappers.url = "github:llakala/adios-wrappers";
     adios-wrappers.inputs.adios.follows = "adios";
     niri.url = "github:sodiboo/niri-flake";
+    mangowm = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     raycast-lin.url = "github:vicinaehq/vicinae";
     raycast-lin-ext.url = "github:vicinaehq/extensions";
     helix-flake.url = "github:helix-editor/helix";
@@ -33,6 +37,7 @@
       home-manager,
       self,
       niri,
+      mangowm,
       nix-cachyos-kernel,
       raycast-lin,
       helix-flake,
@@ -41,7 +46,7 @@
     }:
     let
       system = "x86_64-linux";
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      pkgs = inputs.nixpkgs.hostPlatform.legacyPackages.${system};
       lib = import ./lib/default.nix nixpkgs.lib;
       nixosConfigurations = import ./hosts {
         inherit
@@ -78,6 +83,7 @@
           git = wrappers.git.drv;
           gitPC = wrappers.git.drv;
           bat = wrappers.bat.drv;
+          mangowc = wrappers.mangowc.drv;
           mnw = import ./wrappers/mnw/default.nix { inherit pkgs mnw; };
         }
       );

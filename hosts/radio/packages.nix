@@ -6,12 +6,12 @@
 with pkgs;
 [
   # Personal packages
-  inputs.zen-browser.packages.${pkgs.system}.default
-  inputs.self.packages.${pkgs.system}.bat
-  inputs.self.packages.${pkgs.system}.mnw
-  inputs.self.packages.${pkgs.system}.gitPC
-  inputs.self.packages.${pkgs.system}.mangowc
-  # inputs.self.packages.${pkgs.system}.cfwarp
+  inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+  inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.bat
+  inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.mnw
+  inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.gitPC
+  inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.mangowc
+  # inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.cfwarp
 
   # Language
   bash-language-server
