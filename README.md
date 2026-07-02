@@ -23,8 +23,19 @@ Ill tell yah more bout me updateNixos button one day.
 
 The seats, the engine, the COCKpit and maybe more, i don't know or remnmebrer!
 
+This is my beloved plane, it's true name is an ancient language you can't even
+comprehend let alone hear! So, what is it called when I tell you, the passengers?
+WEll simpol! 𝓓𝓪𝓷𝓭𝓮𝓵𝓲𝓸𝓷𝓼 is the name of my beloved. The plane that is.. my beloved..
+Till I crashed it, no wait; BRACE FOR IMPACT, WE ARE SINKING WE ARE CRASHING SEND
+HELP.
 
-### So what is in this plane?   
+Welp... it crashed..;
+
+### So, I wonder what is in this plane?
+
+After so many trips back and forth, so many upgrades, configurations; like ship of
+theseus, I wonder if I can call this the same ancient relic I used to.
+Ol besty, ol betsy, why don't we besties go and bet, see the various seas we did!
 
 Lets start with that its OPERATIONAL!!
 <details open>

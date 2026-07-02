@@ -58,8 +58,8 @@
   environment = {
     variables = {
       __GL_THREADED_OPTIMIZATIONS = "0";
-      EDITOR = "hx";
-      VISUAL = "hx";
+      EDITOR = "vim";
+      VISUAL = "vim";
       NIXOS_OZONE_WL = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "wayland";
       WEBKIT_DISABLE_DMABUF_RENDERER = 1;
@@ -108,13 +108,6 @@
     permittedInsecurePackages = [ "olm-3.2.16" ];
   };
 
-  programs = {
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
-  };
-
   systemd = {
     network = {
       enable = false;
@@ -151,16 +144,27 @@
     keyMap = "us";
   };
 
+  virtualisation.libvirtd = {
+    enable = true;
+    allowedBridges = [ "virbr0" ];
+    qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+  };
+
+  programs = {
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+    virt-manager.enable = true;
+    fish.useBabelfish = true;
+  };
+
   services = {
-    xserver = {
-      videoDrivers = [ "nvidia" ];
-      xkb = {
-        layout = "us";
-      };
-      displayManager = {
-        lightdm.enable = false;
-        startx.enable = false;
-      };
+    cloudflare-warp.enable = true;
+
+    locate = {
+      enable = true;
+      package = pkgs.plocate;
     };
 
     pipewire = {
@@ -175,28 +179,40 @@
       ports = [ 7711 ];
       settings.PasswordAuthentication = true;
     };
-    cloudflare-warp.enable = true;
+
     resolved = {
       enable = true;
       settings.Resolve = {
         Domains = ".";
         DNSOverTLS = false;
+        Cache = "no-negative";
         DNSSEC = true;
         DNS = [
           "192.168.1.200"
-          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          # "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
           # "2606:4700:4700::1111"
           # "1.1.1.1"
           # "1.0.0.1"
         ];
         FallbackDNS = [
-          "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
-          "192.168.1.200"
-          "2606:4700:4700::1111"
+          # "fd00:11a0:1309:1d84:4bba:3620:ebb1:0200"
+          # "192.168.1.200"
+          # "2606:4700:4700::1111"
           "1.1.1.1"
-          # "1.0.0.1"
+          "1.0.0.1"
         ];
         ResolveUnicastSingleLabel = true;
+      };
+
+    };
+    xserver = {
+      videoDrivers = [ "nvidia" ];
+      xkb = {
+        layout = "us";
+      };
+      displayManager = {
+        lightdm.enable = false;
+        startx.enable = false;
       };
     };
   };
@@ -204,9 +220,12 @@
   users.users.kami = {
     isNormalUser = true;
     extraGroups = [
+      "audio"
+      "video"
       "wheel"
       "networkmanager"
       "kvm"
+      "libvirtd"
     ];
     shell = pkgs.bash;
   };
@@ -224,8 +243,10 @@
       raycast.enable = true;
       steam.enable = true;
       xdg-portal.enable = true;
+      kdeconnect.enable = true;
       niri = {
         enable = true;
+        wallpaper = "nordwall3.png";
         wallpaper = "girlWCigg.png";
         wallpaperSource = ../../assets/wallpapers;
       };
@@ -249,11 +270,11 @@
         '';
       };
       wireshark.enable = true;
-      vesktop.enable = true;
       xwayland = {
         enable = true;
         useSatellite = true;
       };
+      something.enable = true;
       # xwayland-satellite = { enable = true; };
     };
   };

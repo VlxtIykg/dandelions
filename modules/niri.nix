@@ -30,7 +30,7 @@ in
     wallpaper = mkOption {
       description = "file name of the wallpaper image located in assets/wallpapers/";
       type = types.enum (attrNames (builtins.readDir cfg.wallpaperSource)); # fancy schamncy way of populating enum in nix
-      default = "Fantasy-Autumn.png";
+      default = "moonlight.png";
     };
   };
 
@@ -93,6 +93,30 @@ in
           };
           window-rules = [
             {
+              matches = [
+                {
+                  app-id = "^Alacritty$";
+                }
+              ];
+              focus-ring = {
+                enable = false;
+                width = 10000;
+                active.color = "#00000055";
+              };
+              border = {
+                enable = true;
+                width = 4;
+              };
+              # background-effect = {
+              #   blur = true;
+              # };
+
+            }
+            {
+              matches = [ { title = "Bitwarden — Zen Browser$"; } ];
+              open-floating = true;
+            }
+            {
               matches = [ { title = "Dunst"; } ];
               open-floating = true;
 
@@ -113,12 +137,7 @@ in
                   app-id = "vesktop";
                 }
               ];
-              excludes = [
-                {
-                  title = "\w*$Discord\w*$";
-                }
-              ];
-              open-floating = true;
+              open-floating = false;
 
               focus-ring = {
                 enable = true;
@@ -129,14 +148,15 @@ in
               #   enable = true;
               #   inactive.color = "#7d0d2d";
               # };
-              shadow = {
-                enable = true;
-                color = "#7d0d2d70";
-              };
-              tab-indicator = {
-                active.color = "#f38ba8";
-                inactive.color = "#7d0d2d";
-              };
+              # shadow = {
+              #   enable = true;
+              #   color = "#7d0d2d70";
+              # };
+              # tab-indicator = {
+              #   active.color = "#f38ba8";
+              #   inactive.color = "#7d0d2d";
+              # };
+              block-out-from = "screencast";
             }
             {
               matches = [ { is-window-cast-target = true; } ];
@@ -175,7 +195,9 @@ in
             "Alt+S".action.screenshot = [ ];
             "Print".action.screenshot-screen = [ ];
             "Alt+Print".action.screenshot-window = [ ];
-            "Alt+Shift+Y".action = fullscreen-window;
+            "Alt+Shift+B".action = fullscreen-window;
+            "Alt+Shift+M".action = maximize-window-to-edges;
+            "Alt+Shift+N".action = maximize-column;
 
             "Alt+Shift+W".action = move-window-up;
             "Alt+Shift+S".action = move-window-down;
@@ -205,14 +227,52 @@ in
               "wpctl"
               "set-volume"
               "@DEFAULT_AUDIO_SINK@"
-              "0.1+"
+              "0.05+"
             ];
             "XF86AudioLowerVolume".action.spawn = [
               "wpctl"
               "set-volume"
               "@DEFAULT_AUDIO_SINK@"
-              "0.1-"
+              "0.05-"
             ];
+            "XF86AudioMute".action.spawn = [
+              "wpctl"
+              "set-mute"
+              "@DEFAULT_AUDIO_SINK@"
+              "toggle"
+            ];
+            "Alt+XF86AudioMute".action.spawn = [
+              "wpctl"
+              "set-mute"
+              "@DEFAULT_AUDIO_SOURCE@"
+              "toggle"
+            ];
+
+            "Ctrl+XF86AudioRaiseVolume".action.spawn = [
+              "pactl"
+              "set-sink-volume"
+              "bluez_output.30_53_C1_4D_CA_AC.1"
+              "+5%"
+            ];
+            "Ctrl+XF86AudioLowerVolume".action.spawn = [
+              "pactl"
+              "set-sink-volume"
+              "bluez_output.30_53_C1_4D_CA_AC.1"
+              "-5%"
+            ];
+            "Ctrl+XF86AudioMute".action.spawn = [
+              "pactl"
+              "set-sink-mute"
+              "bluez_output.30_53_C1_4D_CA_AC.1"
+              "toggle"
+            ];
+            "alt+ctrl+xf86audiomute".action.spawn = [
+              "pactl"
+              "set-source-mute"
+              "bluez_input.30:53:C1:4D:CA:AC"
+              "toggle"
+            ];
+
             # workspace keybinds
           }
           // builtins.listToAttrs (
@@ -244,8 +304,13 @@ in
             };
           };
 
+          # cursor.theme = "Reisen";
+          cursor.theme = "YuzuhaBLZ";
+          # cursor.theme = "FrierenBLZ";
+          # cursor.theme = "FernBLZ";
+          # cursor.theme = "Win7Bulid-cursors";
           cursor.hide-when-typing = true;
-          cursor.size = 16;
+          cursor.size = 60;
 
           outputs = {
             "HDMI-A-1" = {

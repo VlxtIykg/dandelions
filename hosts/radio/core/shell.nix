@@ -7,9 +7,8 @@ let
   wrappers = inputs.self.packages.${system};
 in
 pkgs.mkShellNoCC {
-
   packages = [
     wrappers.gitPC
-    inputs.self.packages.${pkgs.system}.mnw.devMode
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.mnw.devMode
   ];
 }
